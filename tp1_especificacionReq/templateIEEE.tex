@@ -97,6 +97,7 @@ crear tabla de el versionado de los cambios
 	\subsection{Funciones del producto}
 	\label{sec:orgaf51da6}
 	\begin{enumerate}
+		\item control de posición
 		\item Servidor web embebido 
 		\item Compatible con el software Gpredict y Stellarium, y scripts de antenas principales 
 		\item Reinicio del en forma remota  
@@ -121,157 +122,52 @@ crear tabla de el versionado de los cambios
 	
 	\subsection{Suposiciones y dependencias}
 	\label{sec:org0ae23fe}
+	Se supone que se cuenta con los scripts del manejo de las antenas principales 
 	
+	Se cuenta con los encoders y motores seleccionados. 
 	
 	
 	\subsection{Requisitos futuros}
 	\label{sec:org33cfcdb}
-	Es deseable que el sistema posea control de velocidad. 
+	El sistema posea control de velocidad 
+	El diseño electrónico escalable, y realizable en una cadena de producción.  
+	El sistema debe poseer autocalibración en base al sol o la luna(esto dependerá del horario en que se realice la autocalibración) 
+	
 	
 	
 	
 	\section{Requisitos específicos}
 	\label{sec:org40573d1}
 	
-	Esta sección contiene los requisitos a un nivel de detalle suficiente
-	como para permitir a los diseñadores diseñar un sistema que
-	satisfaga estos requisitos, y demuestren si el sistema satisface, o
-	no, los requisitos. Todo requisito aquí especificado describirá
-	comportamientos externos del sistema, perceptibles por parte de los
-	usuarios, operadores y otros sistemas. Esta es la sección más larga
-	e importante de la ERS. Deberán aplicarse los siguientes principios:
-	
-	\begin{itemize}
-		\item El documento debería ser perfectamente legible por personas de muy
-		distintas formaciones e intereses.
-		
-		\item Deberán referenciarse aquellos documentos relevantes que poseen
-		alguna influencia sobre los requisitos.
-		
-		\item Todo requisito deberá ser unívocamente identificable mediante algún
-		código o sistema de numeración adecuado.
-		
-		\item Lo ideal, aunque en la práctica no siempre realizable, es que los
-		requisitos posean las siguientes características: 
-		
-		\begin{itemize}
-			\item \textbf{Corrección:} La ERS es correcta si y sólo si todo requisito que
-			figura aquí(y que será implementado en el sistema) refleja alguna
-			necesidad real. La corrección de la ERS implica que el sistema
-			implementado será el deseado.
-			
-			\item \textbf{No ambiguos:} Cada requisito tiene una sola interpretación. Para
-			eliminar la ambigüedad inherente a los requisitos expresados en
-			lenguaje natural, se deberán utilizar gráficos o notaciones
-			formales. En el caso de utilizar términos que, habitualmente,
-			poseen más de una interpretación, se definirán con precisión en
-			glosario.
-			
-			\item \textbf{Completos:} Todos los requisitos relevantes han sido incluidos en
-			la ERS. Conviene incluir todas las posibles respuestas del sistema
-			a los datos de entrada, tanto validos como no válidos.
-			
-			\item \textbf{Consistentes:} Los requisitos no pueden ser contradictorios. Un
-			conjunto de requisitos contradictorios no es implementable.
-			
-			\item \textbf{Clasificados:} Normalmente, no todos los requisitos son igual de
-			importantes. Los requisitos pueden clasificarse por importancia
-			(esenciales, condicionales u opcionales) o por estabilidad (cambios
-			que se espera que afecten al requisito). Esto sirve, ante todo,
-			para no emplear excesivos recursos en implementar requisitos no
-			esenciales.
-			
-			\item \textbf{Verificables:} La ERS es verificalble si y sólo si todos sus
-			requisitos son verificables. Un requisito es verificable
-			(testeable) si existe un proceso finito y no costoso para
-			demostrar que el sistema cumple con el requisito. Un requisito
-			ambiguo no es, en general, verificable. Expresiones como a veces,
-			bien, adecuado, etc introducen ambigüedad en los
-			requisitos. Requisitos como "en caso de accidente la nube tóxica
-			no se extenderá más allá de 25km" no es verificable por el alto
-			costo que conlleva.
-			
-			\item \textbf{Modificables:} La ERS es modificable si y sólo si se encuentra
-			estructurada de forma que los cambios a los requisitos puedan
-			realizarse de forma fácil, completa y consistente. La utilización
-			de herramientas automáticas de gestión de requisito (por ejemplo
-			RequisitePro o Doors) facilitan enormemente esta tarea.
-			
-			\item \textbf{Trazables:} La ERS es trazable si se conoce el origen de cada
-			requisito y facilita la referencia de cada requisito a los
-			componentes y de la implementación. La trazabilidad hacia atrás
-			indica el origen (documento, persona, etc) de cada requisito. La
-			trazabilidad hacia delante de un requisito R indica qué
-			componentes del sistema son los que realizan el registro R.
-		\end{itemize}
-	\end{itemize}
-	
 	
 	\subsection{Interfaces externas}
 	\label{sec:orgfd5391f}
-	
-	Se describirán los requisitos que afecten a la interfaz de usuario,
-	interfaz con otros sistemas (hardware y software) e interfaces de comunicaciones.
-	
+	\begin{itemize}
+		\item El sistema se comunicara con una red local mediante cable ethernet con conector RJ45
+		\item El sistema se conecta con un sensor de temperatura DHT11 mediante onewire. 
+		\item El sistema se conecta con los drivers de los motores mediante puertos que posean salida PWM. 
+		\item Los encoders serán conectados en un puerto analógico digital. 
+		\item El sistema de medición del viento se realizará con un anemómetro, y se conectará a un puerto analógico digital
+		\item Se realizará un PCB que se acople al single board computer mecánicamente con borneras, donde se indique mediante serigrafia donde se conecta. Esta serigrafia será: 
+		\begin{itemize}
+			\item EP1: motor de azimuth 
+			\item EP2: motor de altura
+			\item ENC1: encoder de azimuth 
+			\item ENC2: encoder de altura 
+			\item VTO: anemómetro 
+			
+		\end{itemize} 
+		
+	\end{itemize}
 	
 	\subsection{Funciones}
 	\label{sec:org307bb59}
+	\subsection{Control de posición}
+	\begin{enumerate}
+		\item El sistema debe   
+		\item El control debe realizarse mediante un control on/off. 
+	\end{enumerate}
 	
-	Esta subsección (quizás la más larga del documento) deberá
-	especificar todas aquellas acciones (funciones) que deberá llevar a
-	cabo el software. Normalmente (aunque no siempre) son aquellas
-	acciones expresables como "el sistema deberá \ldots{}" Si se considera
-	necesario, podrán utilizarse notaciones gráficas y tablas, pero
-	siempre supeditadas al lenguaje natural, y no al revés.
-	
-	Es importante tener en cuenta que, en 1983, el estándar de IEEE 830
-	establecía que las funciones deberían expresarse como una jerarquía
-	funcional (en paralelo con los DFDs propuestas por el análisis
-	estructurado). Pero el estándar de IEEE 830, en sus últimas
-	versiones, ya permite organizar esta subsección de múltiples formas,
-	y sugiere, entre otras, las siguientes:
-	
-	
-	\begin{itemize}
-		\item Por tipos de usuarios: 
-		Distintos usuarios poseen distintos requisitos. Para cada clase de
-		usuario que exista en la organización, se especificarán los
-		requisitos funcionales que le afecten o tengan mayor relación con
-		sus tareas.
-	\end{itemize}
-	
-	
-	\begin{itemize}
-		\item Por objetos:
-		Los objetos son identidades del mundo real que serán reflejadas en
-		el sistema. Para cada objeto, se detallarán sus atributos y sus
-		funciones. Los objetos pueden agruparse en clases. Esta organización
-		de la ERS no quiere decir que el diseño del sistema siga el
-		paradigma de Orientación a Objetos.
-	\end{itemize}
-	
-	
-	\begin{itemize}
-		\item Por estímulos: 
-		Se especificarán los posibles estímulos que recibe el sistema y las
-		funciones relacionadas con dicho estímulo.
-	\end{itemize}
-	
-	
-	\begin{itemize}
-		\item Por jerarquía funcional: 
-		Si ninguna de las anteriores alternativas resulta de ayuda, la
-		funcionalidad del sistema se especificará como una jerarquía de
-		funciones que comparten entradas, salidas o datos internos. Se
-		detallarán las funciones (entrada, proceso, salida) y las
-		subfunciones del sistema. Esto no implica que el diseño del sistema
-		deba realizarse según el paradigma de diseño estructurado.
-	\end{itemize}
-	
-	
-	Para organizar esta subsección de la ERS se elegirá alguna de las
-	anteriores alternativas, o incluso alguna otra que se considere más
-	conveniente. Deberá, eso sí, justificarse el porqué de tal elección.
 	
 	
 	
