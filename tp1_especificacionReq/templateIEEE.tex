@@ -52,7 +52,7 @@ crear tabla de el versionado de los cambios
 	
 	\subsection{Propósito}
 	\label{sec:org434c3ef}
-	Este documento presenta una especificación de requerimientos de software para unsistema de  posicionamiento de antena. Este dispositivo generalmente se conoce como rotador. 
+	Este documento presenta una especificación de requerimientos de software para unsistema de  posicionamiento de antena. Este dispositivo generalmente se conoce como rotador. Este tiene dos ejes, uno denominado azimuth,y el otro altura o elevación. 
 	 
 	Esta dirigido a técnicos, profesionales y operarios que intervengan en los sistemas de apuntamiento que posee el IAR.   
 
@@ -130,10 +130,12 @@ crear tabla de el versionado de los cambios
 	\subsection{Requisitos futuros}
 	\label{sec:org33cfcdb}
 	El sistema posea control de velocidad 
+	
 	El diseño electrónico escalable, y realizable en una cadena de producción.  
-	El sistema debe poseer autocalibración en base al sol o la luna(esto dependerá del horario en que se realice la autocalibración) 
 	
+	El sistema debe poseer autocalibración en base al sol o la luna(esto dependerá del horario en que se realice la autocalibración).  
 	
+	El sistema tendra que identificarse mediante algún código alfanumérico
 	
 	
 	\section{Requisitos específicos}
@@ -164,66 +166,61 @@ crear tabla de el versionado de los cambios
 	\label{sec:org307bb59}
 	\subsection{Control de posición}
 	\begin{enumerate}
-		\item El sistema debe   
-		\item El control debe realizarse mediante un control on/off. 
+		\item El sistema debe realizar un control a lazo cerrado mediante la lectura de los encoders cada 100 ms, mientras se encuentre encendido.
+		\item Debe poder manejar el sistema de coordenadas ecuatorial y altacimutal, y realizar las transformaciones matemáticas correspondientes 
+		\item El control se realiza mediante un control on/off. 
+		\item El sistema tiene tres estados: 
+			\begin{enumerate}
+				\item TRACKING: seguimiento de satelite o radiofuente. Debe ser independiente del tipo de objeto estelar a seguir
+				\item UNTRACKING: no se esta realizando ningún tipo de seguimiento 
+				\item CENIT: posición de reposo de la antena
+			\end{enumerate}
+	
 	\end{enumerate}
-	
-	
-	
-	
+	\subsection{Servidor Web embebido}
+	\begin{enumerate}
+		\item El servidor informa del estado estado actual(TRACKING, UNTRACKING, CENIT). Además informa el estado de corriente en ampere, tensión de operación en volts, viento en km/h y temperatura en grados centigrados 
+		\item Debe realizar movimientos de la antena a demanda del operador 
+		\item Debe poseer una función de calibración para los encoders e informar su lectura 
+		\item Debe poseer mecanismo de POST/GET para consulta de estados mediante consola. 
+		\item Se deben utlizar los scripts de las antenas principales. Esto implica la realización en python del servidor web embebido
+		\item Debe poseer mecanismo para realizar el gráfico de tensión,corriente, viento y temperatura, durante los últimos 10 minutos y verse en pantalla.
+	\end{enumerate}
+
+\subsection{Conexión con software externo}
+	\begin{itemize}
+		\item Debe usarse Stellarium y Gpredict para realizar seguimientos de radiofuentes o satelites
+		\item Se deben utilizar sockets y configuraciones especificas para cada software. 
+	\end{itemize}
+
+
+\subsection{Entorno de operación y mantenimiento}
+\begin{enumerate}
+	\item El sistema debe realizar la medición de temperatura y viento cada 2 minutos 
+	\item Si la velocidad supera los 50 km/h durante diez, debe llevar la antena a su posición de cenit, independientemente de su estado actual. Si estaba en cenit, debe quedarse alli hasta que la velocidad del viento sea inferior a 50 km/h durante al menos 10 minutos
+	\item Debe almacenar los datos desde las 5AM de un dia, hasta las 5AM del dia siguiente, y enviar la información a un servidor dentro de la institución. Estos datos tienen el siguiente formato: 
+	\begin{itemize}
+		\item timestamp , tensión[V], corriente[A], temperatura[°C] , viento[KM/H], ESTADO, posición\_azimuth,posición\_altura 
+	\end{itemize}  
+	La hora de envio será las 5 AM de cada dia. El nombre del archivo enviado es en formato txt, y posee el siguiente formato de nombre: 
+	\begin{itemize}
+		\item IAR\_MIA\_FECHA\_ANTENA.txt 
+	\end{itemize} 
+	\item El archivo debe ser procesado y almacenado en un directorio dentro del repositorio de la institución mediante un script y realizar un analisis de los parámetros que reciben. En caso de anomalia, debe alertar a los operadores mediante el envio de un SMS o mail.  
+\end{enumerate}
+
 	\subsection{Requisitos de rendimiento}
 	\label{sec:org94bc543}
 	
-	Se detallarán los requisitos relacionados con la carga que se espera
-	tenga que soportar el sistema. Por ejemplo, el número de terminales,
-	el número esperado de usuarios simultaneamente conectados, número de
-	transacciones por segundo que deberá soportar el sistema, etc.
-	También, si es necesario, se especificarpán los requisitos de
-	datos, es decir, aquellos requisitos que afecten a la información
-	que se guardará en la base de datos. Por ejemplo, la frecuencia de
-	uso, las capacidades de acceso y la cantidad de registros que se
-	espera almacenar (decenas, cientos, miles o millones).
-	
+	El sistema, debe soportar hasta 20 conexiones simultaneamente. Si esta en estado TRACKING, al conectarse simultaneamente otro operador, debe informarsele que debe esperar que finalice la operación. 
 	
 	\subsection{Restricciones de diseño}
 	\label{sec:org49fe900}
 	
-	
-	Todo aquello que restrinja las decisiones relativas al diseño de la
-	aplicación: Restricciones de otros estándares, limitaciones del
-	hardware, etc.
-	
+	Se debe realizar el servidor web embebido en python, para tener compatibilidad con los scripts de manejo de las antenas principales de la institución. 
 	
 	\subsection{Atributos del sistema}
 	\label{sec:orgd0babc0}
+	Debe tener la capacidad de actualizar el software manualmente mediante red local, si se desea agregar otro software aparte de Gpredict y Stellarium (por ejemplo orbitron)
 	
-	Se detallarán los atributos de calidad (las "ilities") del
-	sistema. Fiablidad, manteniblidad, portabilidad, y muy importante,
-	la seguridad. Deberá especificarse qué tipos de usuarios están
-	autorizados, o no, a realizar ciertas tareas, y cómo se
-	implementarán los mecanismos de seguridad (por ejemplo, por medio de
-	un \emph{login} y una \emph{password}).
-	
-	
-	\subsection{Otros requisitos}
-	\label{sec:org31d2978}
-	
-	Cualquier otro requisito que no encaje en otra sección.
-	
-	\newpage
-	
-	
-	\section{Apéndices}
-	\label{sec:org75cea03}
-	
-	Puede contener todo tipo de información relevante para la ERS pero
-	que, propiamente, no forme parte de la ERS. Por ejemplo:
-	
-	\begin{enumerate}
-		\item Formatos de entrada/salida de datos, por pantalla o en listados.
-		
-		\item Resultados de análisis de costes.
-		
-		\item Restricciones acerca del lenguaje de programación.
-	\end{enumerate}
 \end{document}
