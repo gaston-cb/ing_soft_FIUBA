@@ -1,0 +1,215 @@
+\documentclass[12pt,a4paper, twosite]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage[left=2.00cm, right=2.50cm, top=2.50cm, bottom=2.00cm]{geometry}
+\usepackage{fancyhdr}
+\fancyhead[RO,LE]{\thepage}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\definecolor{titDesc}{HTML}{1194D5}
+\definecolor{rowMain}{HTML}{80A0E5}
+\definecolor{row1}{HTML}{8FADEE}
+\fancyhead[LO]{\emph{\uppercase{\leftmark}}}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{1.0pt}
+\pagestyle{fancy}
+\date{}
+\author{Gastón Valdez \\ gaston.cb.90@gmail.com}
+\title{Telemetría y sistema de posicionamiento de antena para interferometría \\ Especificación de casos de uso}
+\hypersetup{
+	pdfborder={0 0 0},
+	pdfauthor={Gastón Valdez},
+	pdftitle={Reqerimientos de ingenieria de software},
+	pdfkeywords={Requerimientos, posicionador de antena},
+	pdfsubject={hola mundo},
+	pdfcreator={Emacs 26.2 (Org mode 9.1.9)}, 
+	pdflang={Spanish}
+}
+
+
+\begin{document}
+	\begin{titlepage}
+		\maketitle
+	\end{titlepage}
+\tableofcontents
+	
+	\newpage
+	
+	\section{Introducción}
+	\label{sec:org60390fa}
+	\subsection{Propósito}
+	\label{sec:org434c3ef}
+	El propósito del presente documento es definir los casos de uso posibles del sistema rotador que se han definido en los documentos \ref{ref:ptr},\ref{ref:ids} y \ref{ref:MIA}. 	
+	
+	\subsection{Definiciones, Acrónimos y Abreviaturas}
+	\label{sec:orgb158e36}
+	\begin{itemize}
+	\item IAR: instituto Argentino de Radioastronomía.  
+	\item SRS: Especifición de requerimientos de software.  
+	\item EP: Electrónica de potencia.
+	\item SBC: Single Board Computer.
+	\item TBC: Falta de confirmación.
+	\item TBD: Aún no definido.
+	\item IdS: Ingeniería de software.
+	\item N/A: No aplica.  
+	\end{itemize}
+
+
+	
+	
+	\subsection{Referencias}
+	\label{sec:org62711e0}
+	
+\begin{enumerate}
+	\item \label{ref:MIA}https://www.iar.unlp.edu.ar/slider/observatorio/
+	\item \label{ref:cese} Plan de trabajo CESE.
+	\item \label{ref:ptr} IAR-OBS-MIA-REQ-R05 (documento interno).
+	\item \label{ref:ids} IdS\_Gaston\_Valdez.pdf (documento interno).
+
+\end{enumerate}
+	
+	
+	\subsection{Visión general del documento}
+	\label{sec:orgdaca22c}
+	Este documento se realiza siguiendo el estándar IEEE Std. 830-1998 de acuerdo con los lineamientos de la materia Ingeniería de Software de la carrera de especialización de sistema embebidos.
+
+	
+	\section{Descripción general }
+	\label{sec:orgc1c4017}
+	Descriptas en \ref{ref:ids}.
+	\subsection{Perspectiva del producto}
+	\label{sec:org24980a8}
+	Descriptas en \ref{ref:ids}.
+
+	\subsection{Funciones del producto}
+	\label{sec:orgaf51da6}
+	Descriptas en \ref{ref:ids}.
+	
+	\section{Casos de uso}
+	\label{sec:org40573d1}
+		
+	\subsection{caso de uso 1 }
+	%1989C2 cyan 
+	\begin{tabular}{|p{0.001\textwidth}|p{0.25\textwidth}|p{0.2\textwidth}|p{0.5\textwidth}|}
+		\hline 
+		\rowcolor{row1}  \multicolumn{2}{|c|}{Título} & \multicolumn{2}{|c|}{Descripción} \\ \hline
+		\rowcolor{titDesc}
+		\multicolumn{2}{|c|}{1. Nombre} & \multicolumn{2}{|c|}{Seguimiento de radiofuentes} \\ \hline
+		
+		& 1.1. Breve descripción & \multicolumn{2}{p{0.7\textwidth}|}{En este escenario se configura una radiofuente a seguir}  \\ \cline{2-4} 
+		& 1.2. Actor Principal & \multicolumn{2}{p{0.7\textwidth}|}{Operadores de antena}  \\ \cline{2-4}  
+		&1.3. Disparadores & \multicolumn{2}{p{0.7\textwidth}|}{Estrella o satélite a seguir. El seguimiento es automático, puede ser mediante una agenda o manual. }  \\ \hline 
+		
+		%consultar si unir las dos filas ! 
+		%\columncolor{rowMain}
+		%\rowcolor{rowMain}
+		\multicolumn{4}{|>{\columncolor{rowMain}[8pt][19pt]}p{\textwidth}|}{2. Flujo de eventos} \\ \hline 
+		&2.1. Flujo básico &\multicolumn{2}{p{0.7\textwidth}|}{2.1.1. Elegir programa de apuntamiento (Gpredict,Stellarium o scripts bash)\newline 2.1.2. Selección de la fuente a seguir  \newline 2.1.3. El dispositivo recibe las coordenadas y debe realizar el cálculo del seguimiento\newline 2.1.4. Estaciona la antena
+		esperando la salida del astro/satelite 
+		\newline 2.1.5. Realiza el seguimiento durante toda la trayectoria del astro/satelite, hasta que vuelva a esconderse por la linea del horizonte.  
+		\newline 2.1.5. Vuelve a la posición del cenit }  \\ \cline{2-4}  
+		
+		% consultar si hay que unir las filas 
+		& 2.2. Flujo alternativo   &  \multicolumn{2}{p{0.7\textwidth}|}{
+			2.2.1. El sistema detecta que las coordenadas son erroneas \newline2.2.2. Alerta al operador de la situación }  \\ \hline  
+		
+		
+		\multicolumn{2}{|p{0.3\textwidth}|}{3. Requerimientos especiales } & 
+		\multicolumn{2}{|p{0.7\textwidth}|}{ 3.1. El viento no supera los 50 km/h durante toda la operación de seguimiento}  \\ \hline  
+		\multicolumn{2}{|p{0.3\textwidth}|}{4. Pre-condiciones }  & \multicolumn{2}{p{0.7\textwidth}|}{ 4.1. Estado de UNTRACKING }  \\   
+		\hline 
+		\multicolumn{2}{|p{0.3\textwidth}|}{5. Post-condiciones } 
+		&   \multicolumn{2}{p{0.7\textwidth}|}{5.1. Estado de UNTRACKING}  \\ \hline  
+		
+	\end{tabular}
+	
+	
+	\subsection{caso de uso 2 }
+	
+	\begin{tabular}{|p{0.001\textwidth}|p{0.28\textwidth}|p{0.2\textwidth}|p{0.5\textwidth}|}
+		\hline 
+		%\rowcolor{red}
+		%\multicolumn{4}{|p{\textwidth}|}{} \\ \hline una sola fila en primera columnta 
+		\rowcolor{row1}	\multicolumn{2}{|c|}{Título} & \multicolumn{2}{|c|}{Descripción} \\ \hline
+		\rowcolor{titDesc}	\multicolumn{2}{|c|}{1. Nombre} & \multicolumn{2}{|c|}{Vientos superiores a 50 km/h} \\ \hline
+		
+		& 1.1. Breve descripción & \multicolumn{2}{p{0.7\textwidth}|}{En este escenario se intenta seguir una radiofuente con un viento superior a 50 km/h}  \\ \cline{2-4} 
+		& 1.2. Actor Principal & \multicolumn{2}{p{0.7\textwidth}|}{Operadores de antena}  \\ \cline{2-4}  
+		&1.3. Disparadores & \multicolumn{2}{p{0.7\textwidth}|}{Estrella o satélite a seguir }  \\ \hline 
+		
+		%consultar si unir las dos filas ! 
+		
+		\multicolumn{4}{|>{\columncolor{rowMain}[7pt][22pt]}p{\textwidth}|}{2. Flujo de eventos} \\ \hline 
+		&2.1. Flujo básico &\multicolumn{2}{p{0.7\textwidth}|}{2.1.1. Elegir programa de apuntamiento (Gpredict,Stellarium o scripts bash)\newline 2.1.2. Selección de la fuente a seguir  \newline 2.1.3. El dispositivo recibe las coordenadas e independiente de la precondición vuelve al cenit  \newline 2.1.4. Alerta al operador \newline 2.1.5. Vuelve a la posición del cenit  
+			 }  \\ \cline{2-4}  
+		
+		% consultar si hay que unir las filas 
+		& 2.2. Flujo alternativo   &  \multicolumn{2}{p{0.7\textwidth}|}{
+			2.2.1. El sistema no puede volver al cenit \newline 
+			2.2.2. Debe volver manualmente al cenit (sistema manual) }  \\ \hline  
+		
+		
+		\multicolumn{2}{|p{0.3\textwidth}|}{3. Requerimientos especiales } & 
+		\multicolumn{2}{p{0.7\textwidth}|}{ 3.1 El sistema debe estar encendido al menos 10 minutos.}  \\ \hline  
+		\multicolumn{2}{|p{0.3\textwidth}|}{4 Pre-condiciones }  & \multicolumn{2}{p{0.7\textwidth}|}{ 4.1. Estado de UNTRACKING }  \\   
+		\hline 
+		\multicolumn{2}{|p{0.3\textwidth}|}{5. Post-condiciones } 
+		&   \multicolumn{2}{p{0.7\textwidth}|}{5.1. Estado de CENIT}  \\ \hline  
+		
+	\end{tabular}
+	
+	
+	\subsection{caso de uso 3 }
+	
+	
+	\begin{tabular}{|p{0.001\textwidth}|p{0.28\textwidth}|p{0.2\textwidth}|p{0.5\textwidth}|}
+		\hline 
+		%\rowcolor{red}
+		%\multicolumn{4}{|p{\textwidth}|}{} \\ \hline una sola fila en primera columnta 
+		\rowcolor{row1}	\multicolumn{2}{|c|}{Título} & \multicolumn{2}{|c|}{Descripción} \\ \hline
+		\rowcolor{titDesc}	\multicolumn{2}{|c}{1. Nombre} & \multicolumn{2}{|c|}{Al menos dos operadores con conexión a la antena } \\ \hline
+		
+		& 1.1. Breve descripción & \multicolumn{2}{p{0.7\textwidth}|}{Un operador intenta realizar un movimiento cuando la antena esta en estado de TRAKING}  \\ \cline{2-4} 
+		& 1.2. Actor Principal & \multicolumn{2}{p{0.7\textwidth}|}{Operadores de antena}  \\ \cline{2-4}  
+		&1.3. Disparadores & \multicolumn{2}{p{0.7\textwidth}|}{Estrella o satélite a seguir }  \\ \hline 
+		%\rowcolor{rowMain}	
+		\multicolumn{4}{|>{\columncolor{rowMain}[8pt][22pt]}p{\textwidth}|}{2. Flujo de eventos} \\ \hline 
+		&2.1. Flujo básico &\multicolumn{2}{p{0.7\textwidth}|}{2.1.1. Detectar que operador solicitó primero el movimiento de la antena \newline 
+			2.1.2. Cargar en una lista de espera y avisar al segundo operador de esta situación \newline	
+			2.1.3. Mover la antena y realizar el seguimiento de este operador \newline
+			2.1.4. Al desaperecer por el horizonte el primer astro/satelite, verificar si es posible satisfacer el segundo en base a los horarios de entrada y puesta por el horizonte.
+			\newline
+			2.1.5. Si es posible realizar el segundo seguimiento debe realizarlo.
+			2.1.6. Si no es posible realizar el segundo seguimiento debe volver la antena al cenit}  \\ \cline{2-4}  
+		% consultar si hay que unir las filas 
+		& 2.2. Flujo alternativo   &  \multicolumn{2}{p{0.7\textwidth}|}{
+			N/A
+		}  \\ \hline  
+		
+		\multicolumn{2}{|p{0.3\textwidth}|}{3. Requerimientos especiales } & 
+		\multicolumn{2}{p{0.7\textwidth}|}{N/A
+		}  \\ \hline  
+		\multicolumn{2}{|p{0.3\textwidth}|}{4 Pre-condiciones }  & \multicolumn{2}{p{0.7\textwidth}|}{N/A }  \\   
+		\hline 
+		\multicolumn{2}{|p{0.3\textwidth}|}{5. Post-condiciones } 
+		&   \multicolumn{2}{p{0.7\textwidth}|}{5.1. Estado de UNTRACKING o CENIT}  \\ \hline  
+		
+	\end{tabular}
+	
+	
+	
+
+\end{document}
